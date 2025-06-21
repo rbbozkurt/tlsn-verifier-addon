@@ -1,0 +1,15 @@
+{
+  "name": "@tlsn/verifier-darwin-universal",
+  "version": "0.0.0",
+  "os": [
+    "darwin"
+  ],
+  "main": "verifier.darwin-universal.node",
+  "files": [
+    "verifier.darwin-universal.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}
