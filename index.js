@@ -310,6 +310,8 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { verifyPresentation } = nativeBinding
+const { verifyPresentation, verifyPresentationFromFile, verifyPresentationInAnotherFormat } = nativeBinding
 
 module.exports.verifyPresentation = verifyPresentation
+module.exports.verifyPresentationFromFile = verifyPresentationFromFile
+module.exports.verifyPresentationInAnotherFormat = verifyPresentationInAnotherFormat

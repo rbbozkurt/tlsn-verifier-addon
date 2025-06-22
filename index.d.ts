@@ -10,4 +10,19 @@ export interface VerificationResult {
   recv: Array<number>
   time: string
 }
+export interface VerificationOutput {
+  isValid: boolean
+  serverName: string
+  score?: number
+  error?: string
+}
+export interface InputProofJson {
+  presentationJson: InputPresentationData
+}
+export interface InputPresentationData {
+  version: string
+  data: string
+}
 export declare function verifyPresentation(json: string): VerificationResult
+export declare function verifyPresentationFromFile(path: string): VerificationResult
+export declare function verifyPresentationInAnotherFormat(path: string): VerificationOutput

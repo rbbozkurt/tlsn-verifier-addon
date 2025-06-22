@@ -40,6 +40,30 @@ pub struct VerificationResult {
 }
 
 
+#[derive(Debug, Serialize, Deserialize)]
+#[napi(object)]
+pub struct VerificationOutput {
+    pub is_valid: bool,
+    pub server_name: String,
+    pub score: Option<i64>, // Change u64 to i64 for napi compatibility
+    pub error: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[napi(object)]
+pub struct InputProofJson {
+    #[serde(rename = "presentationJson")]
+    pub presentation_json: InputPresentationData,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[napi(object)]
+pub struct InputPresentationData {
+    pub version: String,
+    pub data: String,
+}
+
+
 impl PresentationJSON {
     pub fn from_json(json: &str) -> Result<Self, serde_json::Error> {
         serde_json::from_str(json)
@@ -48,10 +72,22 @@ impl PresentationJSON {
     pub fn to_presentation(&self) -> Result<Presentation, bincode::Error> {
         println!("Hex length: {}", self.data.len());
 
-        let raw = hex::decode(&self.data)
-            .map_err(|e| bincode::ErrorKind::Custom(format!("Hex decode failed: {}", e)))?;
+        let raw = match hex::decode(&self.data){
+            Ok(b) => b,
+            Err(e) => {
+                println!("Hex decode error: {}", e);
+                return Err(bincode::Error::new(bincode::ErrorKind::Custom(e.to_string())));
+            }
+        };
         println!("Raw data length: {}", raw.len());
-        bincode::deserialize(&raw)
+        let tlsn_presentation: Presentation = match bincode::deserialize(&raw) {
+            Ok(p) => p,
+            Err(e) => {
+                println!("Bincode deserialize error: {}", e);
+                return Err(bincode::Error::new(bincode::ErrorKind::Custom(e.to_string())));
+            }
+        };
+        return Ok(tlsn_presentation);
     }
 
     
