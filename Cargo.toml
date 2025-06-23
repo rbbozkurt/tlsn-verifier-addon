@@ -3,6 +3,10 @@ edition = "2021"
 name = "tlsn_verifier"
 version = "0.0.0"
 
+[[bin]]
+name = "verifier-fix"
+path = "src/bin/verifier-fix.rs"
+
 [lib]
 crate-type = ["cdylib"]
 
@@ -10,10 +14,9 @@ crate-type = ["cdylib"]
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
 napi = { version = "2.12.2", default-features = false, features = ["napi4"] }
 napi-derive = "2.12.2"
-tlsn-core = { git = "https://github.com/tlsnotary/tlsn", package = "tlsn-core" }
+tlsn-core = { git = "https://github.com/tlsnotary/tlsn", rev = "v0.1.0-alpha.10", package = "tlsn-core" }
 hex = "0.4"
 bincode = "1.3"
-
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 chrono = "0.4.41"
